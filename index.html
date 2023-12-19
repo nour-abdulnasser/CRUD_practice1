@@ -6,11 +6,20 @@
     <title>Document</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css"/>
     <link rel="stylesheet" href="./css/style.css">
-</head>
+</head>        
 <body>
-    <div class="container">
-        <h1 class="my-4">Product Management Program</h1>
+    <div class="container my-5">
 
+        <!-- <div class="search-container d-flex justify-content-between">
+            <input type="text" placeholder="Search by name" id="searchInput"  class="form-control w-75"/>
+            <button class="btn btn-info" onclick="searchProducts()">Search</button>
+        </div> -->
+        <div class="search-container d-flex justify-content-between">
+            <input type="text" placeholder="Search by name" id="searchInput" oninput="searchProducts(this.value)" class="form-control"/>
+        </div>
+
+        <h1 class="my-4">Product Management Program</h1>
+*
         <label for="productNameInput">Product Name</label>
         <input type="text" id="productNameInput" class="form-control my-3" placeholder="Product Name"/>
 
@@ -26,6 +35,26 @@
 
         <button onclick="addNewProduct()" class="btn btn-success">Add Item</button>
         
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+               
+
+            </tbody>
+        </table>
+
+
+
     </div>
 
     

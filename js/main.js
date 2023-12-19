@@ -1,3 +1,4 @@
+
 // goal 1 : add new products and store them
 //    1.1 : need somewhere to store items  --> object
 //    1.2 : need to add items along with properties on clicking --> function
@@ -25,28 +26,131 @@ let productDescInput = document.getElementById('productDescInput');
 
 let allProducts = [];
 
-
 function addNewProduct() {
     // each added item is an object with its own set of properties
     let newProduct = {
-        productName: productNameInput.value,
-        producCateg: productCategInput.value,
-        productPrice: productPriceInput.value,
-        productDesc: productDescInput.value
+        name: productNameInput.value,
+        category: productCategInput.value,
+        price: productPriceInput.value,
+        description: productDescInput.value
     }
 
     allProducts.push(newProduct);
-    console.log(newProduct);
-    
+    // console.log(newProduct);
 
+    localStorage.setItem("allProds", JSON.stringify(allProducts));
+
+    clearForm();
+    displayProduct(allProducts);
 
 
 }
 
-console.log(allProducts);
+if (localStorage.getItem("allProds") != null){
+    /* note: the condition can also be written as (localStorage.getItem("allProds")) only */
+    allProducts = JSON.parse(localStorage.getItem("allProds"));
+    displayProduct(allProducts);        // keeps the table displayed even after reload
+} else {
+    allProducts = []; 
+}
+
+function clearForm(){
+    productNameInput.value ='';
+    productCategInput.value ='';
+    productPriceInput.value ='';
+    productDescInput.value ='';
+}
+
+function displayProduct(arr){
+    var tableBodyString = '';
+    for (var i = 0; i<arr.length; i++){
+        tableBodyString = tableBodyString + `
+        <tr>
+            <td>${i+1}</td>
+            <td>${arr[i].name}</td>
+            <td>${arr[i].price}</td>
+            <td>${arr[i].category}</td>
+            <td>${arr[i].description}</td>
+            <td><button class= 'btn btn-warning'> Update </button></td>
+            <td><button class= 'btn btn-danger'> Delete </button></td>
+        </tr>
+        `
+    }
+
+    document.getElementById('tableBody').innerHTML = tableBodyString;
+
+}
 
 
 
+// search functionality
+
+// .includes( --- ) is helpful for this, returns boolean value
+
+/* *********** 1. results on click *********** */
+
+// var searchTerm = document.getElementById('searchInput').value; // does not work on click
+
+// function searchProducts(){
+//     var searchTerm = document.getElementById('searchInput').value;
+//     console.log((searchTerm)); // note: works when paired with <<  var searchTerm = document.getElementById('searchInput').value; >> 
+//     var searchResults = [];
+//     console.log(allProducts);
+//     for ( var i = 0; i < allProducts.length; i++){
+//         var x = allProducts[i].name;
+//         // if(allProducts[i].name.toLowerCase().includes(searchTerm.value)){
+//             if(x.toLowerCase().includes(searchTerm)){
+//                 // console.log(x);
+//                 searchResults.push(allProducts[i]);
+//             }
+//         }
+//         // console.log(searchResults[0]);
+//         displayProduct(searchResults); 
+//     // console.log(searchTerm); // note: this paired with << var searchTerm = document.getElementById('searchInput').value >> above in function doesnt work
+// }
+
+/* *********** 2. results in real time *********** */
+
+function searchProducts(searchTerm){
+    var searchResults = [];
+    console.log(allProducts);
+    for ( var i = 0; i < allProducts.length; i++){
+        var x = allProducts[i].name;
+            if(x.toLowerCase().includes(searchTerm)){
+                searchResults.push(allProducts[i]);
+            }
+        }
+        displayProduct(searchResults); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// local storage
+
+// localStorage.setItem( Key , Value ); // value must be in string form
+// using toString() loses the ability for the stringified object to be understood as an object once again
+// JSON solves this issue
+// localStorage.getItem( Key );
+// localStorage.removeItem( Key ); 
+// localStorage.clear();            // clears all loc storage items
+// localStorage.length();           // number of keys in loc stor
+
+// JSON.parse( --- ) // de-stringify
 
 
 
