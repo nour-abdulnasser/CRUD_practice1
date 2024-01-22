@@ -71,8 +71,8 @@ function displayProduct(arr){
             <td>${arr[i].price}</td>
             <td>${arr[i].category}</td>
             <td>${arr[i].description}</td>
-            <td><button class= 'btn btn-warning'> Update </button></td>
-            <td><button class= 'btn btn-danger'> Delete </button></td>
+            <td><button class= 'btn btn-warning' onclick='setFormForUpdate(${i})'> Update </button></td>
+            <td><button class= 'btn btn-danger' onclick="deleteProduct(${i})" > Delete </button></td>
         </tr>
         `
     }
@@ -123,14 +123,54 @@ function searchProducts(searchTerm){
         displayProduct(searchResults); 
 }
 
+// delete product
+
+function deleteProduct(productIndex){
+    allProducts.splice(productIndex, 1);
+    localStorage.setItem('allProds', JSON.stringify(allProducts));
+    displayProduct(allProducts);
+
+}
+// to change in local storage: must overwrite original (set again)
+// clear or removeItem will remove entire key
+
+var updatedProdIndex;
 
 
+// update
+function setFormForUpdate(productIndex){
+    productNameInput.value = allProducts[productIndex].name;
+    productCategInput.value = allProducts[productIndex].category;
+    productPriceInput.value = allProducts[productIndex].price;
+    productDescInput.value = allProducts[productIndex].description;
+    document.getElementById('addBtn').classList.add("d-none");
+    document.querySelector('#updateBtn').classList.remove("d-none");
+    
+    updatedProdIndex = productIndex;
 
 
+}
 
+function updateForm(){
 
+    var updatedProduct = {
+        name: productNameInput.value,
+        category: productCategInput.value,
+        price: productPriceInput.value,
+        description: productDescInput.value
+    }
 
+    allProducts.splice(updatedProdIndex, 1, updatedProduct);
+    // console.log(newProduct);
 
+    localStorage.setItem("allProds", JSON.stringify(allProducts));
+
+    clearForm();
+    displayProduct(allProducts);
+    document.querySelector('#addBtn').classList.remove("d-none");
+    document.querySelector('#updateBtn').classList.add("d-none");
+
+}
 
 
 
